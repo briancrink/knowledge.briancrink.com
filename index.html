@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="resources/images/icons/favicon.png" type="image/png" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="resources/images/icons/favicon-white.png" type="image/png" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="resources/images/icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="resources/images/icons/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)">
+  <title>Knowledge Base | Brian Crink</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Varela&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --page-bg: #000000;
+      --page-fg: #ffffff;
+    }
+
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      max-height: 100%;
+      overflow: hidden;
+      background-color: var(--page-bg);
+      color: var(--page-fg);
+      transition: background-color 0.45s ease, color 0.45s ease;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: var(--page-bg);
+      color: var(--page-fg);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeIn 1.3s forwards;
+    }
+
+    body.light,
+    html:has(body.light) {
+      --page-bg: #ffffff;
+      --page-fg: #1a1a1a;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .legend.view-entering {
+      animation: fadeIn 1.1s forwards;
+    }
+
+    .venture-row.view-entering > .venture-group > h2,
+    .venture-row.view-entering .venture-item {
+      opacity: 0;
+      animation: fadeIn 1.1s forwards;
+      animation-delay: calc(var(--col, 0) * 0.14s);
+    }
+
+    .container {
+      position: relative;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .venture-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .venture-group {
+      width: 100%;
+    }
+
+    @media (min-width: 950px) {
+      .container {
+        max-width: 1400px;
+      }
+
+      .venture-row {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap:5.50rem;
+      }
+
+      .venture-group {
+        width: auto;
+        min-width: 220px;
+      }
+    }
+
+    @property --pc1 { syntax: '<color>'; inherits: false; initial-value: #ff006e; }
+    @property --pc2 { syntax: '<color>'; inherits: false; initial-value: #8338ec; }
+    @property --pc3 { syntax: '<color>'; inherits: false; initial-value: #3a86ff; }
+    @property --pc4 { syntax: '<color>'; inherits: false; initial-value: #06d6a0; }
+    @property --pc5 { syntax: '<color>'; inherits: false; initial-value: #ffbe0b; }
+
+    @keyframes portalChromaFade {
+      0%   { --pc1: #ff006e; --pc2: #8338ec; --pc3: #3a86ff; --pc4: #06d6a0; --pc5: #ffbe0b; }
+      20%  { --pc1: #ffbe0b; --pc2: #ff006e; --pc3: #8338ec; --pc4: #3a86ff; --pc5: #06d6a0; }
+      40%  { --pc1: #06d6a0; --pc2: #ffbe0b; --pc3: #ff006e; --pc4: #8338ec; --pc5: #3a86ff; }
+      60%  { --pc1: #3a86ff; --pc2: #06d6a0; --pc3: #ffbe0b; --pc4: #ff006e; --pc5: #8338ec; }
+      80%  { --pc1: #8338ec; --pc2: #3a86ff; --pc3: #06d6a0; --pc4: #ffbe0b; --pc5: #ff006e; }
+      100% { --pc1: #ff006e; --pc2: #8338ec; --pc3: #3a86ff; --pc4: #06d6a0; --pc5: #ffbe0b; }
+    }
+
+    .site-nav-link.portal {
+      background-image: linear-gradient(
+        90deg,
+        var(--pc1),
+        var(--pc2),
+        var(--pc3),
+        var(--pc4),
+        var(--pc5)
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: portalChromaFade 8s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .site-nav-link.portal {
+        animation: none;
+      }
+    }
+
+    .site-nav {
+      margin: 0;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      letter-spacing: 0.16rem;
+    }
+
+    body.light .site-nav {
+      color: #1a1a1a;
+    }
+
+    .site-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      margin: 0;
+    }
+
+    .site-nav .portal {
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      letter-spacing: 0.08rem;
+    }
+
+    .site-nav-link.lifeos {
+      color: #ffb04a;
+      -webkit-text-fill-color: #ffb04a;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.04rem;
+    }
+
+    .site-nav-link {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .site-nav-link:hover {
+      opacity: 0.85;
+    }
+
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      text-decoration: none;
+      line-height: 0;
+    }
+
+    .map-link:hover {
+      opacity: 0.85;
+    }
+
+    .map-icon {
+      width: 3.0rem;
+      height: 3.0rem;
+      display: block;
+    }
+
+    .name {
+      font-size: 3.0rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    body.light .name {
+      color: #1a1a1a;
+    }
+
+    .name-link {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .name-link:hover {
+      opacity: 0.85;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 50px 0 0px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .icons {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 24px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .icon img {
+      width: 100px;
+      height: 100px;
+      transition: transform 0.2s;
+    }
+
+    @media (max-width: 949px) {
+      body {
+        padding: 0;
+      }
+
+      .container {
+        margin-top: 8px;
+      }
+
+      .venture-group {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+
+      .venture-group h2 {
+        margin: 10px 0 8px;
+      }
+
+      .venture-group .icons {
+        margin-bottom: 8px;
+      }
+
+      .icon img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .wordmark-link {
+        min-height: 50px;
+      }
+
+      .wordmark {
+        font-size: 1.6rem;
+      }
+    }
+
+    .icon:hover img {
+      transform: scale(1.15);
+    }
+
+    .wordmark-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+      text-decoration: none;
+      transition: opacity 0.2s ease, transform 0.2s;
+    }
+
+    .wordmark-link:hover {
+      opacity: 0.85;
+      transform: scale(1.06);
+    }
+
+    .wordmark {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 0.02rem;
+      line-height: 1.0;
+      white-space: nowrap;
+    }
+
+    .wordmark-top,
+    .wordmark-bottom {
+      display: block;
+    }
+
+    .careeros-mark .career-word {
+      color: #ab7affda;
+    }
+
+    .careeros-mark .os-mark {
+      color: #ffffff;
+    }
+
+    .learnos-mark .learn-word {
+      color: #3f8f4e;
+    }
+
+    .learnos-mark .os-word {
+      color: #ffffff;
+    }
+
+    .store-mark .store-word {
+      color: #ffffff;
+    }
+
+    .store-mark .bc-word {
+      color: #b3b3b3;
+      display: block;
+    }
+
+    /* Desktop (950px and up): loop only while hovering */
+    @media (min-width: 950px) {
+      .store-link:hover {
+        opacity: 1;
+      }
+
+      .store-link:hover .bc-word .bc-letter {
+        opacity: 0;
+        animation-duration: 5.2s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+      }
+
+      .store-link:hover .bc-word .bc-letter:nth-child(1) { animation-name: bcLetter1; }
+      .store-link:hover .bc-word .bc-letter:nth-child(2) { animation-name: bcLetter2; }
+      .store-link:hover .bc-word .bc-letter:nth-child(3) { animation-name: bcLetter3; }
+      .store-link:hover .bc-word .bc-letter:nth-child(4) { animation-name: bcLetter4; }
+      .store-link:hover .bc-word .bc-letter:nth-child(5) { animation-name: bcLetter5; }
+      .store-link:hover .bc-word .bc-letter:nth-child(6) { animation-name: bcLetter6; }
+      .store-link:hover .bc-word .bc-letter:nth-child(7) { animation-name: bcLetter7; }
+      .store-link:hover .bc-word .bc-letter:nth-child(8) { animation-name: bcLetter8; }
+      .store-link:hover .bc-word .bc-letter:nth-child(9) { animation-name: bcLetter9; }
+      .store-link:hover .bc-word .bc-letter:nth-child(10) { animation-name: bcLetter10; }
+      .store-link:hover .bc-word .bc-letter:nth-child(11) { animation-name: bcLetter11; }
+      .store-link:hover .bc-word .bc-letter:nth-child(12) { animation-name: bcLetter12; }
+      .store-link:hover .bc-word .bc-letter:nth-child(13) { animation-name: bcLetter13; }
+      .store-link:hover .bc-word .bc-letter:nth-child(14) { animation-name: bcLetter14; }
+
+      .store-link:hover .store-word {
+        animation: storeBloom 5.2s ease-in-out infinite;
+      }
+    }
+
+    /* Mobile (949px and below): no hover available, so loop by default */
+    @media (max-width: 949px) {
+      .store-link .bc-word .bc-letter {
+        opacity: 0;
+        animation-duration: 5.2s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+      }
+
+      .store-link .bc-word .bc-letter:nth-child(1) { animation-name: bcLetter1; }
+      .store-link .bc-word .bc-letter:nth-child(2) { animation-name: bcLetter2; }
+      .store-link .bc-word .bc-letter:nth-child(3) { animation-name: bcLetter3; }
+      .store-link .bc-word .bc-letter:nth-child(4) { animation-name: bcLetter4; }
+      .store-link .bc-word .bc-letter:nth-child(5) { animation-name: bcLetter5; }
+      .store-link .bc-word .bc-letter:nth-child(6) { animation-name: bcLetter6; }
+      .store-link .bc-word .bc-letter:nth-child(7) { animation-name: bcLetter7; }
+      .store-link .bc-word .bc-letter:nth-child(8) { animation-name: bcLetter8; }
+      .store-link .bc-word .bc-letter:nth-child(9) { animation-name: bcLetter9; }
+      .store-link .bc-word .bc-letter:nth-child(10) { animation-name: bcLetter10; }
+      .store-link .bc-word .bc-letter:nth-child(11) { animation-name: bcLetter11; }
+      .store-link .bc-word .bc-letter:nth-child(12) { animation-name: bcLetter12; }
+      .store-link .bc-word .bc-letter:nth-child(13) { animation-name: bcLetter13; }
+      .store-link .bc-word .bc-letter:nth-child(14) { animation-name: bcLetter14; }
+
+      .store-link .store-word {
+        animation: storeBloom 5.2s ease-in-out infinite;
+      }
+    }
+
+    /* Each letter of "briancrink.com" pops in left-to-right (typewriter),
+       holds, then fades out right-to-left. Timed as % of the shared 5.2s loop. */
+    @keyframes bcLetter1 {
+      0%, 1.857% { opacity: 0; }
+      1.857%, 99.143% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter2 {
+      0%, 3.714% { opacity: 0; }
+      3.714%, 98.286% { opacity: 1; }
+      99.143%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter3 {
+      0%, 5.571% { opacity: 0; }
+      5.571%, 97.429% { opacity: 1; }
+      98.286%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter4 {
+      0%, 7.429% { opacity: 0; }
+      7.429%, 96.571% { opacity: 1; }
+      97.429%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter5 {
+      0%, 9.286% { opacity: 0; }
+      9.286%, 95.714% { opacity: 1; }
+      96.571%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter6 {
+      0%, 11.143% { opacity: 0; }
+      11.143%, 94.857% { opacity: 1; }
+      95.714%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter7 {
+      0%, 13% { opacity: 0; }
+      13%, 94% { opacity: 1; }
+      94.857%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter8 {
+      0%, 14.857% { opacity: 0; }
+      14.857%, 93.143% { opacity: 1; }
+      94%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter9 {
+      0%, 16.714% { opacity: 0; }
+      16.714%, 92.286% { opacity: 1; }
+      93.143%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter10 {
+      0%, 18.571% { opacity: 0; }
+      18.571%, 91.429% { opacity: 1; }
+      92.286%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter11 {
+      0%, 20.429% { opacity: 0; }
+      20.429%, 90.571% { opacity: 1; }
+      91.429%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter12 {
+      0%, 22.286% { opacity: 0; }
+      22.286%, 89.714% { opacity: 1; }
+      90.571%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter13 {
+      0%, 24.143% { opacity: 0; }
+      24.143%, 88.857% { opacity: 1; }
+      89.714%, 100% { opacity: 0; }
+    }
+
+    @keyframes bcLetter14 {
+      0%, 26% { opacity: 0; }
+      26%, 88% { opacity: 1; }
+      88.857%, 100% { opacity: 0; }
+    }
+
+    @keyframes storeBloom {
+      0%, 24% {
+        text-shadow: none;
+        filter: brightness(1);
+      }
+      32%, 82% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.42), 0 0 22px rgba(255, 255, 255, 0.18);
+        filter: brightness(1.18);
+      }
+      90%, 100% {
+        text-shadow: none;
+        filter: brightness(1);
+      }
+    }
+
+    body.light .careeros-mark .os-mark,
+    body.light .learnos-mark .os-word,
+    body.light .store-mark .store-word {
+      color: #cecece;
+    }
+
+  body.light .learnos-mark .learn-word {
+    color: #3f8f4e;
+  }
+
+    body.light .store-mark .bc-word {
+      color: #222222;
+    }
+
+    .cafeanya-mark {
+      font-family: "Google Sans", Varela, Inter, sans-serif;
+    }
+
+    .cafeanya-mark .cafe-word {
+      color: #b3b3b3;
+      transition: color 0.35s ease;
+    }
+
+    /* Desktop (950px and up): loop only while hovering */
+    @media (min-width: 950px) {
+      .cafeanya-link:hover {
+        opacity: 1;
+      }
+
+      .cafeanya-link:hover .cafe-word {
+        animation: cafeHue 4s ease-in-out infinite;
+      }
+
+      body.light .cafeanya-link:hover .cafe-word {
+        animation-name: cafeHueLight;
+      }
+    }
+
+    /* Mobile (949px and below): no hover available, so loop by default */
+    @media (max-width: 949px) {
+      .cafeanya-link .cafe-word {
+        animation: cafeHue 4s ease-in-out infinite;
+      }
+
+      body.light .cafeanya-link .cafe-word {
+        animation-name: cafeHueLight;
+      }
+    }
+
+    @keyframes cafeHue {
+      0%, 8% { color: #ffb04a; }
+      42%, 58% { color: #ab7affda; }
+      92%, 100% { color: #ffb04a; }
+    }
+
+    @keyframes cafeHueLight {
+      0%, 8% { color: #ffb04a; }
+      42%, 58% { color: #ab7aff; }
+      92%, 100% { color: #ffb04a; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .store-link:hover .bc-word .bc-letter,
+      .store-link .bc-word .bc-letter,
+      .store-link:hover .store-word,
+      .store-link .store-word,
+      .cafeanya-link:hover .cafe-word,
+      .cafeanya-link .cafe-word {
+        animation: none;
+        opacity: 1;
+      }
+    }
+
+    .cafeanya-mark .anya-word {
+      color: #ffffff;
+    }
+
+    body.light .cafeanya-mark .cafe-word {
+      color: #222222;
+    }
+
+    body.light .cafeanya-mark .anya-word {
+      color: #1a1a1a;
+    }
+
+    .streamline-mark {
+      align-items: center;
+    }
+
+    .streamline-mark img {
+      width: 68px;
+      height: 68px;
+      display: block;
+    }
+
+    .streamline-mark .streamline-word,
+    .tinyspace-mark .tinyspace-word {
+      margin-top: 0.2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.02rem;
+      line-height: 1;
+    }
+
+    .streamline-mark .stream-word {
+      color: #EB518C;
+    }
+
+    .streamline-mark .line-word {
+      color: #ffffff;
+    }
+
+    body.light .streamline-mark .line-word {
+      color: #1a1a1a;
+    }
+
+    .tinyspace-mark {
+      align-items: center;
+    }
+
+    .tinyspace-mark img {
+      width: 68px;
+      height: 68px;
+      display: block;
+    }
+
+    .tinyspace-mark .tiny-word {
+      color: #8fd4ff;
+    }
+
+    .tinyspace-mark .space-word {
+      color: #ffffff;
+    }
+
+    body.light .tinyspace-mark .space-word {
+      color: #1a1a1a;
+    }
+
+    @media (max-width: 949px) {
+      .wordmark {
+        font-size: 1.6rem;
+      }
+
+      .wordmark-link {
+        min-height: 70px;
+      }
+
+      .streamline-mark img {
+        width: 46px;
+        height: 46px;
+      }
+
+      .streamline-mark .streamline-word,
+      .tinyspace-mark .tinyspace-word {
+        font-size: 0.92rem;
+        margin-top: 0.2rem;
+      }
+
+      .tinyspace-mark img {
+        width: 46px;
+        height: 46px;
+      }
+
+    }
+
+    body.light { color: var(--page-fg); }
+    body.light h2 { color: #1a1a1a; }
+
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 40;
+      background: transparent;
+      border: none;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      margin: 0;
+      display: block;
+      color: #ffffff;
+    }
+
+    .toggle-btn:hover {
+      transform: rotate(20deg);
+    }
+
+    body.light .toggle-btn {
+      color: #1a1a1a;
+    }
+
+    .toggle-btn svg {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .toggle-btn {
+        top: 16px;
+        right: 12px;
+      }
+    }
+
+    .venture-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0;
+    }
+
+    .venture-item .wordmark-link {
+      min-height: 7.25rem;
+      display: inline-flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 0.7rem;
+    }
+
+    .venture-item .dev-pill {
+      margin-top: 0.15rem;
+    }
+
+    @media (max-width: 949px) {
+      .venture-item .wordmark-link {
+        min-height: 5.4rem;
+        padding-bottom: 0.55rem;
+      }
+    }
+
+    .dev-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+      white-space: nowrap;
+      font-family: ui-monospace, "SF Mono", Menlo, Monaco, "Courier New", monospace;
+    }
+
+    .dev-pill[data-dev="planned"] {
+      background: rgba(196, 181, 253, 0.18);
+      color: #ddd6fe;
+      border: 1px solid rgba(196, 181, 253, 0.32);
+    }
+
+    .dev-pill[data-dev="in-development"] {
+      background: rgba(125, 211, 252, 0.16);
+      color: #7dd3fc;
+      border: 1px solid rgba(125, 211, 252, 0.32);
+    }
+
+    body.light .dev-pill[data-dev="planned"] {
+      background: rgba(167, 139, 250, 0.16);
+      color: #7c3aed;
+      border-color: rgba(167, 139, 250, 0.28);
+    }
+
+    body.light .dev-pill[data-dev="in-development"] {
+      background: rgba(14, 165, 233, 0.12);
+      color: #0284c7;
+      border-color: rgba(14, 165, 233, 0.24);
+    }
+
+    :root {
+      --hero-compact: 0;
+      --compact-range: 160px;
+      --image-x: -9px;
+      --image-y: 13px;
+      --image-slot: 148px;
+      --tool-collapse: 138px;
+      --chrome-expanded: 420px;
+    }
+
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      width: 100%;
+      padding: 12px 20px 0;
+      background-color: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #scroller {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: var(--chrome-expanded);
+      bottom: 0;
+      z-index: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: none;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 20px 48px;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 0;
+    }
+
+    .profile-image {
+      position: absolute;
+      left: 50%;
+      top: var(--image-y);
+      width: 160px;
+      max-width: 160px;
+      height: auto;
+      margin: 0;
+      transform: translateX(calc(-50% + var(--image-x)));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .view-toggle-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 0;
+      position: relative;
+      z-index: 4;
+      width: 100%;
+      padding-top: calc(var(--image-slot) - (var(--hero-compact) * var(--tool-collapse)));
+    }
+
+    .mode-toggle {
+      position: relative;
+      display: inline-flex;
+      width: max-content;
+      max-width: calc(100% - 24px);
+      background: rgba(255, 255, 255, 0.146);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50px;
+      padding: 4px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      isolation: isolate;
+      z-index: 4;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mode-toggle:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    body.light .mode-toggle {
+      background: rgba(0, 0, 0, 0.08);
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: var(--slider-l, 4px);
+      width: var(--slider-w, 33%);
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 46px;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+    }
+
+    .mode-toggle.development .toggle-slider {
+      background: rgba(62, 194, 255, 0.701);
+    }
+
+    .mode-toggle.stage .toggle-slider {
+      background: rgba(255, 176, 74, 0.72);
+    }
+
+    body.light .toggle-slider,
+    body.light .mode-toggle.domain .toggle-slider {
+      background: rgba(0, 0, 0, 0.38);
+    }
+
+    body.light .mode-toggle.development .toggle-slider {
+      background: rgba(42, 187, 255, 0.712);
+    }
+
+    body.light .mode-toggle.stage .toggle-slider {
+      background: rgba(255, 176, 74, 0.78);
+    }
+
+    .toggle-option {
+      position: relative;
+      flex: 0 0 auto;
+      padding: 8px 16px;
+      min-width: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 46px;
+      z-index: 2;
+      transition: color 0.2s ease;
+      background: transparent;
+      border: 0;
+      color: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .toggle-option svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      fill: none;
+      stroke: currentColor;
+    }
+
+    .toggle-option.active { color: rgba(255, 255, 255, 0.72); }
+    .toggle-option.inactive { color: rgba(255, 255, 255, 0.55); }
+    body.light .toggle-option.inactive { color: #6b7280; }
+    body.light .toggle-option.active { color: rgba(255, 255, 255, 0.72); }
+
+    .toggle-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .legend {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: min(520px, calc(100% - 24px));
+      font-size: 0.72rem;
+    }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 10px;
+      width: 100%;
+    }
+
+    body[data-view="domain"] .legend-dev,
+    body[data-view="domain"] .legend-stage,
+    body[data-view="development"] .legend-domain,
+    body[data-view="development"] .legend-stage,
+    body[data-view="stage"] .legend-domain,
+    body[data-view="stage"] .legend-dev {
+      display: none;
+    }
+
+    body[data-view="domain"] .item-domain,
+    body[data-view="development"] .item-dev,
+    body[data-view="stage"] .item-stage {
+      display: none;
+    }
+
+    .item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.15rem;
+    }
+
+    .legend .domain-pill,
+    .legend .dev-pill,
+    .legend .stage-pill {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .legend .domain-pill:hover,
+    .legend .dev-pill:hover,
+    .legend .stage-pill:hover { opacity: 0.85; }
+
+    .domain-pill,
+    .stage-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+      white-space: nowrap;
+      font-family: ui-monospace, "SF Mono", Menlo, Monaco, "Courier New", monospace;
+    }
+
+    .domain-pill {
+      background: #32343871;
+      color: #9ca3af;
+      border: 1px solid rgba(156, 163, 175, 0.45);
+    }
+
+    .legend .domain-pill.is-active {
+      background: #cfcfcf;
+      color: #1a1a1a;
+      border-color: #e5e5e5;
+    }
+
+    .stage-pill {
+      background: rgba(255, 176, 74, 0.14);
+      color: #ffd7a1;
+      border: 1px solid rgba(255, 176, 74, 0.32);
+    }
+
+    .legend .stage-pill.is-active {
+      background: #ffb04a;
+      color: #1a1a1a;
+      border-color: #ffc36e;
+    }
+
+    .dev-pill[data-dev="released"] {
+      background: rgba(34, 197, 94, 0.16);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.28);
+    }
+
+    .legend .dev-pill.is-active[data-dev="planned"] {
+      background: #a490ff88;
+      color: #e1ceffe1;
+    }
+
+    .legend .dev-pill.is-active[data-dev="in-development"] {
+      background: #57aeff57;
+      color: #7dd3fc;
+    }
+
+    .legend .dev-pill.is-active[data-dev="released"] {
+      background: #28ff7762;
+      color: #b6ffd3ea;
+    }
+
+    body.light .domain-pill {
+      background: rgba(26, 26, 26, 0.06);
+      color: #4b5563;
+      border-color: rgba(26, 26, 26, 0.16);
+    }
+
+    body.light .legend .domain-pill.is-active {
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+
+    body.light .stage-pill {
+      background: rgba(217, 119, 6, 0.12);
+      color: #b45309;
+      border-color: rgba(217, 119, 6, 0.28);
+    }
+
+    body.light .legend .stage-pill.is-active {
+      background: #f59e0b;
+      color: #1a1a1a;
+    }
+
+    body.light .dev-pill[data-dev="released"] {
+      background: #28ff772d;
+      color: #269e52;
+    }
+
+    .divider {
+      width: 70%;
+      height: 1px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 1rem auto 0;
+    }
+
+    body.light .divider {
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .venture-item.is-hidden,
+    .venture-group.is-hidden {
+      display: none;
+    }
+
+  </style>
+</head>
+<body data-view="domain">
+  <div class="container">
+    <button class="toggle-btn" id="theme-toggle" type="button" aria-label="Dark mode">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.15"/><line x1="12" y1="2.4" x2="12" y2="5.1"/><line x1="12" y1="18.9" x2="12" y2="21.6"/><line x1="2.4" y1="12" x2="5.1" y2="12"/><line x1="18.9" y1="12" x2="21.6" y2="12"/><line x1="5.2" y1="5.2" x2="7.1" y2="7.1"/><line x1="16.9" y1="16.9" x2="18.8" y2="18.8"/><line x1="18.8" y1="5.2" x2="16.9" y2="7.1"/><line x1="7.1" y1="16.9" x2="5.2" y2="18.8"/></svg>
+    </button>
+
+    <div class="header" id="startupHeader">
+    <div class="site-nav">
+      <p class="site-link">
+        <a href="https://portal.briancrink.com" class="site-nav-link portal">Portal</a>
+        <a href="https://site.briancrink.com/map" class="map-link" aria-label="Site map"><svg class="map-icon" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <clipPath id="mapFillPortal"><path d="M3.15 7.85 L8.85 4.55 L15.05 8.05 L20.7 4.75 L20.7 16.25 L15.05 19.55 L8.85 16.05 L3.15 19.35 Z"/></clipPath>
+              <g clip-path="url(#mapFillPortal)">
+                <path d="M3.15 7.85 L8.85 4.55 L15.05 8.05 L20.7 4.75 L20.7 16.25 L15.05 19.55 L8.85 16.05 L3.15 19.35 Z" fill="#3f8f4e"/>
+                <path d="M3.15 19.35 C 8.85 11.05, 15.05 13.8, 20.7 8.75 V 14.65 C 18.9 15.9, 16.15 18.4, 14.85 19.35 L 3.15 19.35 Z" fill="#3a86ff"/>
+              </g>
+              <path d="M3.15 7.85 L8.85 4.55 L15.05 8.05 L20.7 4.75 L20.7 16.25 L15.05 19.55 L8.85 16.05 L3.15 19.35 Z" fill="none" stroke="rgba(47, 58, 51, 0.32)" stroke-width="0.85"/>
+              <line x1="8.85" y1="6.2" x2="8.85" y2="14.4" stroke="rgba(255,255,255,0.62)" stroke-width="0.36" stroke-linecap="round" stroke-dasharray="0.42 2.25"/>
+              <line x1="15.05" y1="9.7" x2="15.05" y2="17.9" stroke="rgba(255,255,255,0.62)" stroke-width="0.36" stroke-linecap="round" stroke-dasharray="0.42 2.25"/>
+              <g class="map-compass">
+                <circle cx="6.114" cy="14.75" r="2.38" fill="#ffffff" stroke="#2eb5e8" stroke-width="0.58"/>
+                <circle cx="6.114" cy="14.75" r="2.07" fill="none" stroke="#1b94d0" stroke-width="0.16"/>
+                <line x1="6.114" y1="13.02" x2="6.114" y2="12.68" stroke="#9ecce4" stroke-width="0.22" stroke-linecap="round"/>
+                <line x1="6.114" y1="16.48" x2="6.114" y2="16.82" stroke="#9ecce4" stroke-width="0.22" stroke-linecap="round"/>
+                <line x1="4.384" y1="14.75" x2="4.044" y2="14.75" stroke="#9ecce4" stroke-width="0.22" stroke-linecap="round"/>
+                <line x1="7.844" y1="14.75" x2="8.184" y2="14.75" stroke="#9ecce4" stroke-width="0.22" stroke-linecap="round"/>
+                <path d="M7.259 13.605 L5.605 14.241 L6.623 15.259 Z" fill="#ef4a3c"/>
+                <path d="M4.969 15.895 L5.605 14.241 L6.623 15.259 Z" fill="#33b7e8"/>
+                <circle cx="6.114" cy="14.75" r="0.46" fill="#ffffff"/>
+              </g>
+              <line x1="19.545" y1="13.689" x2="22.395" y2="16.539" stroke="#e0b36a" stroke-width="1.85" stroke-linecap="round"/>
+              <circle cx="16.858" cy="11.002" r="2.85" fill="rgba(90, 190, 255, 0.38)" stroke="#8b9098" stroke-width="0.82"/>
+            </svg></a>
+        <a href="https://portal.briancrink.com#lifeos" class="site-nav-link lifeos">LifeOS</a>
+      </p>
+    </div>
+
+    <h1 class="name"><a href="https://briancrink.com" class="name-link">Brian Crink</a></h1>
+
+    <div class="hero">
+      <img src="resources/images/profile/profile_face.png" alt="Founder" class="profile-image" draggable="false" data-fallback-src="https://raw.githubusercontent.com/briancrink/resources.briancrink.com/main/images/profile/profile_emoji_face.png" onerror="if(!this.dataset.fell && this.dataset.fallbackSrc){this.dataset.fell='1';this.src=this.dataset.fallbackSrc;}">
+      <div class="view-toggle-wrap">
+        <div class="mode-toggle domain" id="modeToggle" role="tablist" aria-label="Business view">
+          <div class="toggle-slider" id="toggleSlider"></div>
+          <button type="button" class="toggle-option active" id="tab-domain" role="tab" data-view="domain" aria-selected="true" aria-label="Domain">
+            <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3.2" y="3.2" width="7.4" height="7.4" rx="1.2"/>
+              <rect x="13.4" y="3.2" width="7.4" height="7.4" rx="1.2"/>
+              <rect x="3.2" y="13.4" width="7.4" height="7.4" rx="1.2"/>
+              <rect x="13.4" y="13.4" width="7.4" height="7.4" rx="1.2"/>
+            </svg>
+            <span class="toggle-label">Domain</span>
+          </button>
+          <button type="button" class="toggle-option inactive" id="tab-development" role="tab" data-view="development" aria-selected="false" aria-label="Development">
+            <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6.4 5.6 1.1 12 6.4 18.4"/>
+              <line x1="13.7" y1="6.2" x2="10.3" y2="17.8"/>
+              <polyline points="17.6 5.6 22.9 12 17.6 18.4"/>
+            </svg>
+            <span class="toggle-label">Development</span>
+          </button>
+          <button type="button" class="toggle-option inactive" id="tab-stage" role="tab" data-view="stage" aria-selected="false" aria-label="Stage">
+            <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 19 V 13"/>
+              <path d="M10 19 V 9"/>
+              <path d="M16 19 V 6"/>
+              <path d="M22 19 V 3"/>
+            </svg>
+            <span class="toggle-label">Stage</span>
+          </button>
+        </div>
+        <div class="legend" role="group" aria-label="Filter by tag">
+          <div class="legend-row legend-domain">
+            <button type="button" class="domain-pill" data-filter-type="domain" data-domain="software">Software</button>
+            <button type="button" class="domain-pill" data-filter-type="domain" data-domain="ecommerce">eCommerce</button>
+            <button type="button" class="domain-pill" data-filter-type="domain" data-domain="lifestyle">Lifestyle</button>
+          </div>
+          <div class="legend-row legend-dev">
+            <button type="button" class="dev-pill" data-filter-type="dev" data-dev="planned">Planned</button>
+            <button type="button" class="dev-pill" data-filter-type="dev" data-dev="in-development">In Development</button>
+            <button type="button" class="dev-pill" data-filter-type="dev" data-dev="released">Released</button>
+          </div>
+          <div class="legend-row legend-stage">
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="pre-seed">Pre-seed</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="seed">Seed</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="early-startup">Early Startup</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="growth">Growth</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="expansion">Expansion</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="maturity">Maturity</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="renewal">Renewal</button>
+            <button type="button" class="stage-pill" data-filter-type="stage" data-stage="exit">Exit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider">
+    </div>
+
+    <div id="scroller">
+    <div class="venture-row">
+      <section class="venture-group" data-domain="software">
+        <h2>Software</h2>
+        <div class="icons">
+          <div class="venture-item" data-domain="software" data-dev="planned" data-stage="pre-seed">
+            <a href="https://business.briancrink.com/learnos" class="icon wordmark-link learnos-link" aria-label="LearnOS">
+              <span class="wordmark learnos-mark">
+                <span class="wordmark-top learn-word">Learn</span>
+                <span class="wordmark-bottom os-word">OS</span>
+              </span>
+            </a>
+            <div class="item-tags">
+              <span class="domain-pill item-domain" data-domain="software">Software</span>
+              <span class="dev-pill item-dev" data-dev="planned">Planned</span>
+              <span class="stage-pill item-stage" data-stage="pre-seed">Pre-seed</span>
+            </div>
+          </div>
+          <div class="venture-item" data-domain="software" data-dev="in-development" data-stage="pre-seed">
+            <a href="https://business.briancrink.com/careeros" class="icon wordmark-link careeros-link" aria-label="CareerOS">
+              <span class="wordmark careeros-mark">
+                <span class="wordmark-top career-word">Career</span>
+                <span class="wordmark-bottom os-mark">OS</span>
+              </span>
+            </a>
+            <div class="item-tags">
+              <span class="domain-pill item-domain" data-domain="software">Software</span>
+              <span class="dev-pill item-dev" data-dev="in-development">In Development</span>
+              <span class="stage-pill item-stage" data-stage="pre-seed">Pre-seed</span>
+            </div>
+          </div>
+          <div class="venture-item" data-domain="software" data-dev="in-development" data-stage="pre-seed">
+            <a href="https://business.briancrink.com/streamline" class="icon wordmark-link streamline-link"
+               data-light="resources/images/icons/dark/streamline.png"
+               data-dark="resources/images/icons/light/streamline.png"
+               aria-label="Streamline">
+              <span class="wordmark streamline-mark">
+                <img src="resources/images/icons/color/streamline.png" alt="" width="68" height="68">
+                <span class="streamline-word"><span class="stream-word">Stream</span><span class="line-word">line</span></span>
+              </span>
+            </a>
+            <div class="item-tags">
+              <span class="domain-pill item-domain" data-domain="software">Software</span>
+              <span class="dev-pill item-dev" data-dev="in-development">In Development</span>
+              <span class="stage-pill item-stage" data-stage="pre-seed">Pre-seed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="venture-group" data-domain="ecommerce">
+        <h2>eCommerce</h2>
+        <div class="icons">
+          <div class="venture-item" data-domain="ecommerce" data-dev="planned" data-stage="pre-seed">
+            <a href="https://store.briancrink.com" class="icon wordmark-link store-link" aria-label="Store bc">
+              <span class="wordmark store-mark">
+                <span class="wordmark-top bc-word"><span class="bc-letter">b</span><span class="bc-letter">r</span><span class="bc-letter">i</span><span class="bc-letter">a</span><span class="bc-letter">n</span><span class="bc-letter">c</span><span class="bc-letter">r</span><span class="bc-letter">i</span><span class="bc-letter">n</span><span class="bc-letter">k</span><span class="bc-letter">.</span><span class="bc-letter">c</span><span class="bc-letter">o</span><span class="bc-letter">m</span></span>
+                <span class="wordmark-bottom store-word">Store</span>
+              </span>
+            </a>
+            <div class="item-tags">
+              <span class="domain-pill item-domain" data-domain="ecommerce">eCommerce</span>
+              <span class="dev-pill item-dev" data-dev="planned">Planned</span>
+              <span class="stage-pill item-stage" data-stage="pre-seed">Pre-seed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="venture-group" data-domain="lifestyle">
+        <h2>Lifestyle</h2>
+        <div class="icons">
+          <div class="venture-item" data-domain="lifestyle" data-dev="planned" data-stage="pre-seed">
+            <a href="https://business.briancrink.com/tinyspace" class="icon wordmark-link tinyspace-link"
+               data-light="resources/images/icons/color/tinyspace.png"
+               data-dark="resources/images/icons/color/tinyspace.png"
+               aria-label="tinyspace">
+              <span class="wordmark tinyspace-mark">
+                <img src="resources/images/icons/color/tinyspace.png" alt="" width="68" height="68">
+                <span class="tinyspace-word"><span class="tiny-word">tiny</span><span class="space-word">space</span></span>
+              </span>
+            </a>
+            <div class="item-tags">
+              <span class="domain-pill item-domain" data-domain="lifestyle">Lifestyle</span>
+              <span class="dev-pill item-dev" data-dev="planned">Planned</span>
+              <span class="stage-pill item-stage" data-stage="pre-seed">Pre-seed</span>
+            </div>
+          </div>
+          <div class="venture-item" data-domain="lifestyle" data-dev="planned" data-stage="pre-seed">
+            <a href="https://business.briancrink.com/caféanya" class="icon wordmark-link cafeanya-link" aria-label="CAFÉ ANYA">
+              <span class="wordmark cafeanya-mark">
+                <span class="wordmark-top cafe-word">CAFÉ</span>
+                <span class="wordmark-bottom anya-word">ANYA</span>
+              </span>
+            </a>
+            <div class="item-tags">
+              <span class="domain-pill item-domain" data-domain="lifestyle">Lifestyle</span>
+              <span class="dev-pill item-dev" data-dev="planned">Planned</span>
+              <span class="stage-pill item-stage" data-stage="pre-seed">Pre-seed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    const sunIcon = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.15"/><line x1="12" y1="2.4" x2="12" y2="5.1"/><line x1="12" y1="18.9" x2="12" y2="21.6"/><line x1="2.4" y1="12" x2="5.1" y2="12"/><line x1="18.9" y1="12" x2="21.6" y2="12"/><line x1="5.2" y1="5.2" x2="7.1" y2="7.1"/><line x1="16.9" y1="16.9" x2="18.8" y2="18.8"/><line x1="18.8" y1="5.2" x2="16.9" y2="7.1"/><line x1="7.1" y1="16.9" x2="5.2" y2="18.8"/></svg>`;
+    const moonIcon = `<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 14.35A9 9 0 1 1 9.65 3 7.15 7.15 0 0 0 21 14.35z"/></svg>`;
+
+    function setToggleIcon() {
+      const isLight = body.classList.contains('light');
+      toggleBtn.innerHTML = isLight ? moonIcon : sunIcon;
+      toggleBtn.setAttribute('aria-label', isLight ? 'Dark mode' : 'Light mode');
+    }
+
+    function updateSocialIcons() {
+      const isLight = body.classList.contains('light');
+      const mode = isLight ? 'light' : 'dark';
+      document.querySelectorAll('.icon').forEach(icon => {
+        const img = icon.querySelector('img');
+        const newSrc = icon.getAttribute(`data-${mode}`);
+        if (newSrc && img) img.src = newSrc;
+      });
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('light');
+      setToggleIcon();
+      updateSocialIcons();
+    });
+
+    setToggleIcon();
+    updateSocialIcons();
+
+
+    const modeToggle = document.getElementById('modeToggle');
+    const VIEWS = ['domain', 'development', 'stage'];
+    const viewTabs = {
+      domain: document.getElementById('tab-domain'),
+      development: document.getElementById('tab-development'),
+      stage: document.getElementById('tab-stage')
+    };
+    let tagFilter = null;
+
+    function syncSlider() {
+      if (!modeToggle) return;
+      const active = modeToggle.querySelector('.toggle-option.active') || viewTabs.domain;
+      modeToggle.style.setProperty('--slider-l', active.offsetLeft + 'px');
+      modeToggle.style.setProperty('--slider-w', active.offsetWidth + 'px');
+    }
+
+    function syncLegendActive() {
+      document.querySelectorAll('.legend [data-filter-type]').forEach((btn) => {
+        let on = false;
+        if (tagFilter) {
+          if (tagFilter.type === 'domain') on = btn.dataset.domain === tagFilter.value;
+          if (tagFilter.type === 'dev') on = btn.dataset.dev === tagFilter.value;
+          if (tagFilter.type === 'stage') on = btn.dataset.stage === tagFilter.value;
+        }
+        btn.classList.toggle('is-active', on);
+      });
+    }
+
+    const GROUP_ORDER = {
+      domain: ['software', 'ecommerce', 'lifestyle'],
+      development: ['released', 'in-development', 'planned'],
+      stage: ['pre-seed', 'seed', 'early-startup', 'growth', 'expansion', 'maturity', 'renewal', 'exit']
+    };
+    const GROUP_LABEL = {
+      software: 'Software', ecommerce: 'eCommerce', lifestyle: 'Lifestyle',
+      planned: 'Planned', 'in-development': 'In Development', released: 'Released',
+      'pre-seed': 'Pre-seed', seed: 'Seed', 'early-startup': 'Early Startup',
+      growth: 'Growth', expansion: 'Expansion', maturity: 'Maturity',
+      renewal: 'Renewal', exit: 'Exit'
+    };
+    const VIEW_KEY = { domain: 'domain', development: 'dev', stage: 'stage' };
+    const ventureRow = document.querySelector('.venture-row');
+    const allItems = Array.from(document.querySelectorAll('.venture-item'));
+
+    function applyFilter() {
+      const view = body.dataset.view || 'domain';
+      const key = VIEW_KEY[view];
+      const visible = allItems.filter((item) => {
+        if (!tagFilter) return true;
+        if (tagFilter.type === 'domain') return item.dataset.domain === tagFilter.value;
+        if (tagFilter.type === 'dev') return item.dataset.dev === tagFilter.value;
+        if (tagFilter.type === 'stage') return item.dataset.stage === tagFilter.value;
+        return true;
+      });
+      ventureRow.innerHTML = '';
+      GROUP_ORDER[view].forEach((val) => {
+        const members = visible.filter((item) => item.dataset[key] === val);
+        if (!members.length) return;
+        const section = document.createElement('section');
+        section.className = 'venture-group';
+        const h2 = document.createElement('h2');
+        h2.textContent = GROUP_LABEL[val] || val;
+        const icons = document.createElement('div');
+        icons.className = 'icons';
+        members.forEach((item) => {
+          item.classList.remove('is-hidden');
+          icons.appendChild(item);
+        });
+        section.appendChild(h2);
+        section.appendChild(icons);
+        ventureRow.appendChild(section);
+      });
+      syncLegendActive();
+    }
+
+    let viewReady = false;
+
+    function stampColumnDelays() {
+      if (!ventureRow) return;
+      const groups = Array.from(ventureRow.children);
+      const gxs = groups.map((el) => Math.round(el.getBoundingClientRect().left));
+      const gunique = Array.from(new Set(gxs)).sort((a, b) => a - b);
+      groups.forEach((el, i) => {
+        const col = Math.max(0, gunique.indexOf(gxs[i]));
+        el.style.setProperty('--col', String(col));
+      });
+      const cards = Array.from(ventureRow.querySelectorAll('.venture-item'));
+      const ixs = cards.map((el) => Math.round(el.getBoundingClientRect().left));
+      const iunique = Array.from(new Set(ixs)).sort((a, b) => a - b);
+      cards.forEach((el, i) => {
+        const col = iunique.length > 1
+          ? Math.max(0, iunique.indexOf(ixs[i]))
+          : i;
+        el.style.setProperty('--col', String(col));
+      });
+    }
+
+    function replayViewFade() {
+      const legend = document.querySelector('.legend');
+      [legend, ventureRow].forEach((el) => {
+        if (!el) return;
+        el.classList.remove('view-entering');
+        void el.offsetWidth;
+        el.classList.add('view-entering');
+      });
+      requestAnimationFrame(stampColumnDelays);
+    }
+
+    function setView(view) {
+      const next = VIEWS.includes(view) ? view : 'domain';
+      const changed = (body.dataset.view || 'domain') !== next;
+      body.dataset.view = next;
+      modeToggle.classList.toggle('domain', next === 'domain');
+      modeToggle.classList.toggle('development', next === 'development');
+      modeToggle.classList.toggle('stage', next === 'stage');
+      VIEWS.forEach((name) => {
+        const tab = viewTabs[name];
+        if (!tab) return;
+        const on = name === next;
+        tab.classList.toggle('active', on);
+        tab.classList.toggle('inactive', !on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      const hash = '#' + next;
+      if (location.hash !== hash) {
+        try { history.replaceState(null, '', hash); } catch (err) {}
+      }
+      if (tagFilter) {
+        const ok = (next === 'domain' && tagFilter.type === 'domain')
+          || (next === 'development' && tagFilter.type === 'dev')
+          || (next === 'stage' && tagFilter.type === 'stage');
+        if (!ok) tagFilter = null;
+      }
+      applyFilter();
+      requestAnimationFrame(syncSlider);
+      if (viewReady && changed) replayViewFade();
+      viewReady = true;
+    }
+
+    const startupHeader = document.getElementById('startupHeader');
+    const scroller = document.getElementById('scroller');
+    let lastCompact = -1;
+
+    function compactRangePx() {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue('--compact-range').trim();
+      const n = parseFloat(raw);
+      return Number.isFinite(n) ? n : 160;
+    }
+
+    function syncProfileClip() {
+      const img = document.querySelector('.profile-image');
+      const toggle = document.getElementById('modeToggle');
+      if (!img || !toggle) return;
+      const ir = img.getBoundingClientRect();
+      const cut = toggle.getBoundingClientRect().bottom;
+      const fade = 28;
+      if (cut >= ir.bottom - 0.5) {
+        img.style.opacity = '1';
+        img.style.webkitMaskImage = 'none';
+        img.style.maskImage = 'none';
+        return;
+      }
+      if (cut <= ir.top + 0.5) {
+        img.style.opacity = '0';
+        img.style.webkitMaskImage = 'none';
+        img.style.maskImage = 'none';
+        return;
+      }
+      img.style.opacity = '1';
+      const solid = Math.max(0, cut - ir.top - fade);
+      const end = Math.max(0, cut - ir.top);
+      const mask = 'linear-gradient(to bottom, #000 0, #000 ' + solid + 'px, transparent ' + end + 'px, transparent 100%)';
+      img.style.webkitMaskImage = mask;
+      img.style.maskImage = mask;
+    }
+
+    function measureChrome() {
+      if (!startupHeader) return;
+      const divider = startupHeader.querySelector('.divider');
+      const edge = divider || startupHeader;
+      const h = Math.ceil(edge.getBoundingClientRect().bottom);
+      document.documentElement.style.setProperty('--chrome-expanded', Math.max(0, h) + 'px');
+    }
+
+    function scrollYNow() {
+      return scroller ? scroller.scrollTop : window.scrollY;
+    }
+
+    function syncHeroCompact() {
+      const range = Math.max(1, compactRangePx());
+      const y = scrollYNow();
+      const tval = Math.min(1, Math.max(0, y / range));
+      const rounded = tval.toFixed(4);
+      if (rounded !== lastCompact) {
+        lastCompact = rounded;
+        document.documentElement.style.setProperty('--hero-compact', rounded);
+        syncProfileClip();
+        measureChrome();
+      }
+    }
+
+    if (scroller) {
+      scroller.addEventListener('scroll', () => {
+        requestAnimationFrame(syncHeroCompact);
+      }, { passive: true });
+    }
+    if (startupHeader && scroller) {
+      startupHeader.addEventListener('wheel', (e) => {
+        scroller.scrollTop += e.deltaY;
+      }, { passive: true });
+    }
+    window.addEventListener('resize', () => {
+      measureChrome();
+      syncProfileClip();
+      if (typeof syncSlider === 'function') syncSlider();
+    });
+    measureChrome();
+    syncHeroCompact();
+    if (window.ResizeObserver && startupHeader) {
+      new ResizeObserver(() => measureChrome()).observe(startupHeader);
+    }
+
+    requestAnimationFrame(syncSlider);
+
+    document.querySelectorAll('.mode-toggle .toggle-option').forEach((btn) => {
+      btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
+
+    document.querySelectorAll('.legend [data-filter-type]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const type = btn.dataset.filterType;
+        const value = btn.dataset[type === 'dev' ? 'dev' : type];
+        if (tagFilter && tagFilter.type === type && tagFilter.value === value) tagFilter = null;
+        else tagFilter = { type, value };
+        applyFilter();
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.closest('input, textarea, [contenteditable="true"]')) return;
+      const i = VIEWS.indexOf(body.dataset.view || 'domain');
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setView(VIEWS[(i + 1) % VIEWS.length]);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setView(VIEWS[(i - 1 + VIEWS.length) % VIEWS.length]);
+      }
+    });
+
+    function viewFromHash() {
+      const name = (location.hash || '#domain').slice(1);
+      return VIEWS.includes(name) ? name : 'domain';
+    }
+
+    window.addEventListener('hashchange', () => setView(viewFromHash()));
+    window.addEventListener('resize', syncSlider);
+    setView(viewFromHash());
+    requestAnimationFrame(syncSlider);
+
+  </script>
+</body>
+</html>
